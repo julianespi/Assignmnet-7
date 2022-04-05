@@ -5,47 +5,62 @@ private:
     int row;
     int column;
 public:
+
+    //default constructor 
     placedQneen()
     {
         row = 0;
         column = 0;
     }
-    
+
+    //copy constructor
     placedQneen(int newRow, int newColumn)
     {
         row = newRow;
         column = newColumn;
     }
 
+    //Precondition: a int
+    //Postcondition: sets new int to row
     void setRow(int newRow)
     {
         row = newRow;
     }
-
+    //Precondition: a int
+    //Postcondition: sets new int to coulumn
     void setColumn(int newColumn)
     {
         column = newColumn;
     }
-
+    //Precondition: none
+    //Postcondition: returns the row
     int getRow()
     {
         return row;
     }
 
+    //Precondition: none
+    //Postcondition: returns the column
     int getColumn()
     {
         return column;
     }
 
+    //Precondition: a placed queen on the left and right
+    //Postcondition: returns true of they are equal flase if they are not
     friend bool operator ==(const placedQneen& R1, const placedQneen& R2);
 };
 
+//Precondition: a placed queen on the left and right
+//Postcondition: returns true of they are equal flase if they are not
 bool operator ==(const placedQneen& R1, const placedQneen& R2)
 {
     return R1.row * R2.column == R2.row * R1.column;
 }
 
 const int QUEENSVLAUE = 100;
+//Precondition:takes the board, the size of the board, and the number of queens on the board
+//Postcondition: returns ture if you found a soultion flase if you havent.
 bool endGame(int** nQueens, int sizeOfBoard, int numberOfQueensOnBoard)
 {
     int pointsChecked = 0;
@@ -53,16 +68,6 @@ bool endGame(int** nQueens, int sizeOfBoard, int numberOfQueensOnBoard)
     {
         return true;
     }
-
-    //for (int i = 0; i < sizeOfBoard; i++) {
-    //    for (int j = 0; j < sizeOfBoard; j++) {
-
-    //        if (nQueens[i][j] == 0)
-    //        {
-    //            return false;
-    //        }
-    //    }
-    //}
 
     return false;
 }
@@ -95,8 +100,11 @@ void displayBoard(int** nQueens, int sizeOfBoard)
                 cout << endl;
         }
     }
+    cout << endl << endl << endl;
 }
 
+//Precondition: takes the board, the size of the board, the row and column you want to places a queen on
+//Postcondition: returns true if there is no overlap and false if there is overlap
 bool isSafe(int** nQueens, int sizeOfBoard, int row, int column)
 {
     if (nQueens[row][column] == QUEENSVLAUE)
@@ -115,8 +123,8 @@ bool isSafe(int** nQueens, int sizeOfBoard, int row, int column)
     }
 }
 
-//Precondition: takes input user from board size
-//Postcondition: displays the values of the board
+//Precondition: takes the board, the size of the board, the row and column you want to places a queen on and the number of queens on the board
+//Postcondition: adds a queen to the board
 void addQueen(int**& nQueens, int sizeOfBoard, int row, int column, int& numberOfQueensOnBoard)
 {
 
@@ -230,7 +238,9 @@ void addQueen(int**& nQueens, int sizeOfBoard, int row, int column, int& numberO
 
 }
 
-void removeQueen(int**& nQueens, int sizeOfBoard, int& row, int column, int& numberOfQueensOnBoard)
+//Precondition: takes the board, the size of the board, the row and column you want to remove a queen from and the number of queens on the board
+//Postcondition: removes a queen from the board
+void removeQueen(int**& nQueens, int sizeOfBoard, int row, int column, int& numberOfQueensOnBoard)
 {
 
     if (nQueens[row][column] == QUEENSVLAUE)
@@ -341,11 +351,8 @@ void removeQueen(int**& nQueens, int sizeOfBoard, int& row, int column, int& num
     }
 }
 
-//bool possibleSoultion(int**& nQueens, int sizeOfBoard, int& row, int column, int& numberOfQueensOnBoard)
-//{
-//
-//}
-
+//Precondition: none
+//Postcondition: solves the nQueens board
 void nQueensSoultion()
 {
     //left int is row, right int is column
@@ -354,7 +361,7 @@ void nQueensSoultion()
 
 	int sizeOfBoard = inputInteger("Enter a number (1...100) if queens: ", 1, 100);
 	int column = inputInteger("Enter the column (1.." + to_string(sizeOfBoard) + ") to place the first queen: ",1, sizeOfBoard);
-    int row = 1;
+    int row = 0;
     int numberOfQueens = 0;
     int** nQueens = new int* [sizeOfBoard];
 
@@ -376,64 +383,106 @@ void nQueensSoultion()
         }
     }
 
-    bool placedQueen;
-    addQueen(nQueens, sizeOfBoard, 0, column -1, numberOfQueens);
-    temp.setRow(0);
-    temp.setColumn(column - 1);
-    placedQueens.push(temp);
+    addQueen(nQueens, sizeOfBoard, row, column - 1, numberOfQueens);
     displayBoard(nQueens, sizeOfBoard);
-    cout << endl << endl << endl;
+    temp.setRow(row);
+    temp.setColumn(column - 1); 
+    placedQueens.push(temp);
+    row++;
     
-
+    bool clearRow = false;
 
     while (true)
     {
-        if (endGame(nQueens, sizeOfBoard, numberOfQueens))
-            break;
-        placedQueen = false;
-        int movePosition = 0;
-        for (int i = 0; i < sizeOfBoard; i++)
+
+        for(int a = 0; a < sizeOfBoard-1;a++)
         {
-            if (nQueens[row][i]==0)
-            {
-                addQueen(nQueens, sizeOfBoard, row, i, numberOfQueens);
-                temp.setRow(row);
-                temp.setColumn(i);
-                placedQueens.push(temp);
-                row++;  
-                placedQueen = true;
-                displayBoard(nQueens, sizeOfBoard);
-                cout << endl << endl << endl;
-                break;
-            }
-        }
-        if (placedQueen == false)
-        {
-            row--;
-            temp = placedQueens.top();
-            placedQueens.pop();
-            removeQueen(nQueens, sizeOfBoard, row,temp.getColumn() , numberOfQueens);
-            displayBoard(nQueens, sizeOfBoard);
-            cout << endl << endl << endl;
-            
             for (int i = 0; i < sizeOfBoard; i++)
             {
-                if (nQueens[row][i] == 0)
+                if (endGame(nQueens, sizeOfBoard, numberOfQueens))
                 {
-                    if (row != temp.getRow() && column != temp.getColumn())
+                    cout << "soultion for " << sizeOfBoard << " queens." << endl;
+                    displayBoard(nQueens, sizeOfBoard);
+                    return;
+                }
+                if (isSafe(nQueens, sizeOfBoard, row, i))
+                {
+                    addQueen(nQueens, sizeOfBoard, row, i, numberOfQueens);
+                    displayBoard(nQueens, sizeOfBoard);
+                    temp.setRow(row);
+                    temp.setColumn(i);
+                    for (int c = 0; c < sizeOfBoard; c++)
                     {
-                        temp.setColumn(temp.getColumn() + 1);
-                        addQueen(nQueens, sizeOfBoard, temp.getRow(), temp.getColumn(), numberOfQueens);
+                        if (row < sizeOfBoard-1)
+                        {
+
+                            if (nQueens[row + 1][c] == 0)
+                                clearRow = true;
+                        }
+
+                    }
+                    if (clearRow == true)
+                    {
+                        temp.setRow(row);
+                        temp.setColumn(i);
+                        placedQueens.push(temp);
+                        row++;
+                        displayBoard(nQueens, sizeOfBoard);
+                        break;
+                    }
+                    else
+                    {
+                        removeQueen(nQueens, sizeOfBoard, row, i, numberOfQueens);
+                        displayBoard(nQueens, sizeOfBoard);
+                        for (int c = 0; c < sizeOfBoard; c++)
+                        {
+                            if (nQueens[row][c] == 0 && c > temp.getColumn())
+                            {
+                                addQueen(nQueens, sizeOfBoard, row, c, numberOfQueens);
+                                temp.setRow(row);
+                                temp.setColumn(c);
+                                placedQueens.push(temp);
+                                row++;
+                                displayBoard(nQueens, sizeOfBoard);
+                            }
+                        }
                     }
                 }
             }
+        }
+        
+        bool newStart = false;
+        cout << endl;
+        int loopCount = placedQueens.size();
+        while(newStart == false)
+        {
+            temp = placedQueens.top();
+            removeQueen(nQueens, sizeOfBoard, temp.getRow(), temp.getColumn(), numberOfQueens);
+            placedQueens.pop();
+            row--;
             displayBoard(nQueens, sizeOfBoard);
-            cout << endl << endl << endl;
+            if (row == 0 && temp.getColumn() == sizeOfBoard - 1)
+            {
+                cout << "No Soulltions" << endl;
+                return;
+            }
+            for (int a = 0; a < sizeOfBoard; a++)
+            {
+                if (nQueens[row][a] == 0 && a > temp.getColumn())
+                {
+
+                    addQueen(nQueens, sizeOfBoard, row, a, numberOfQueens);
+                    temp.setRow(row);
+                    temp.setColumn(a);
+                    placedQueens.push(temp);
+                    row++;
+                    displayBoard(nQueens, sizeOfBoard);
+                    newStart = true;
+                    break;
+                }
+            }
+            
         }
 
-        //displayBoard(nQueens, sizeOfBoard);
-        //cout << endl << endl << endl;
-
     }
-    displayBoard(nQueens, sizeOfBoard);
 }
