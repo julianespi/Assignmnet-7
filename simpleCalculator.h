@@ -34,15 +34,13 @@ int evaluate(string tokens) {
 
 
     stack <int> values;
-
-
     stack <char> ops;
 
     for (i = 0; i < tokens.length(); i++) {
 
 
-        if (tokens[i] == ' ')
-            continue;
+        if (tokens[i] == ' ')         
+            continue;           
 
 
         else if (tokens[i] == '(') {
@@ -108,6 +106,10 @@ int evaluate(string tokens) {
            
             ops.push(tokens[i]);
         }
+
+        
+        
+
     }
 
  
@@ -131,9 +133,21 @@ int evaluate(string tokens) {
 int main()
 {
     string answer;
-    cout << "Please enter an expression with proper parenthesis: ";
+    char parentheses = '(';
+    char parentheses2 = ')';
+    cout << "Please enter an expression with balanced parentheses: ";
     cin >> answer;
-    cout << evaluate(answer) << "\n";
+
+    bool result = find(answer.begin(), answer.end(), parentheses2) != answer.end();
+    bool result2 = find(answer.begin(), answer.end(), parentheses) != answer.end();
+    if (result and result2)
+    {
+        cout << evaluate(answer) << "\n";
+    }
+    else
+    {
+        cout << "Not balanced parentheses.";
+    }
    
     return 0;
 }
