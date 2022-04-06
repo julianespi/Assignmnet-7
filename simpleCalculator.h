@@ -1,8 +1,8 @@
-#pragma once
 
 #include <string>
 #include <stack>
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -12,6 +12,8 @@ int precedence(char op) {
         return 1;
     if (op == '*' || op == '/')
         return 2;
+    if (op == '^')
+        return 3;
     return 0;
 }
 
@@ -22,7 +24,7 @@ int applyOp(int a, int b, char op) {
     case '-': return a - b;
     case '*': return a * b;
     case '/': return a / b;
-    
+    case '^': return pow(a, b);
     }
 }
 
