@@ -1,78 +1,137 @@
 #pragma once
-#include <iostream>
-#include <cctype>
-#include <cstdlib> 
-#include <cstring>
+
+#include <string>
 #include <stack>
-#include "input.h"
+#include <iostream>
 
 using namespace std;
 
 
-void evaluate_stack_tops(stack<double>& numbers, stack<char>& operations)
-{
-	double operand1, operand2;
-	operand2 = numbers.top();
-	numbers.pop();
-	operand1 = numbers.top();
-	numbers.pop();
-	switch (operations.top())
-	{
-	case '+': numbers.push(operand1 + operand2);
-		break;
-	case '-': numbers.push(operand1 - operand2);
-		break;
-	case '*': numbers.push(operand1 * operand2);
-		break;
-	case '/': numbers.push(operand1 / operand2);
-		break;
-	}
-	operations.pop();
-}
-
-double read_and_evaluate(istream& ins)
-{
-	const char DECIMAL = '.';
-	const char RIGHT_PARENTHESIS = ')';
-
-	
-
-	stack<double> numbers;
-	stack<char> operations;
-	double number;
-	char symbol;
-	while (ins && ins.peek() != '\n')
-	{
-		if (isdigit(ins.peek()) || (ins.peek() == DECIMAL))
-		{
-			ins >> number;
-			numbers.push(number);
-		}
-		else if (strchr("+-*/", ins.peek()) != NULL)
-		{
-			ins >> symbol;
-			operations.push(symbol);
-		}
-		else if (ins.peek() == RIGHT_PARENTHESIS)
-		{
-			ins.ignore();
-			evaluate_stack_tops(numbers, operations);
-		}
-		else
-			ins.ignore();
-			
-		
-	}
-	return numbers.top();
+int precedence(char op) {
+    if (op == '+' || op == '-')
+        return 1;
+    if (op == '*' || op == '/')
+        return 2;
+    return 0;
 }
 
 
+int applyOp(int a, int b, char op) {
+    switch (op) {
+    case '+': return a + b;
+    case '-': return a - b;
+    case '*': return a * b;
+    case '/': return a / b;
+    
+    }
+}
+
+
+int evaluate(string tokens) {
+    int i;
+
+
+    stack <int> values;
+
+
+    stack <char> ops;
+
+    for (i = 0; i < tokens.length(); i++) {
+
+
+        if (tokens[i] == ' ')
+            continue;
+
+
+        else if (tokens[i] == '(') {
+            ops.push(tokens[i]);
+        }
+
+
+        else if (isdigit(tokens[i])) {
+            int val = 0;
+
+            while (i < tokens.length() &&
+                isdigit(tokens[i]))
+            {
+                val = (val * 10) + (tokens[i] - '0');
+                i++;
+            }
+
+            values.push(val);
+
+            i--;
+        }
+
+
+        else if (tokens[i] == ')')
+        {
+            while (!ops.empty() && ops.top() != '(')
+            {
+                int val2 = values.top();
+                values.pop();
+
+                int val1 = values.top();
+                values.pop();
+
+                char op = ops.top();
+                ops.pop();
+
+                values.push(applyOp(val1, val2, op));
+            }
+
+            
+            if (!ops.empty())
+                ops.pop();
+        }
+
+       
+        else
+        {
+        
+            while (!ops.empty() && precedence(ops.top())
+                >= precedence(tokens[i])) {
+                int val2 = values.top();
+                values.pop();
+
+                int val1 = values.top();
+                values.pop();
+
+                char op = ops.top();
+                ops.pop();
+
+                values.push(applyOp(val1, val2, op));
+            }
+
+           
+            ops.push(tokens[i]);
+        }
+    }
+
+ 
+    while (!ops.empty()) {
+        int val2 = values.top();
+        values.pop();
+
+        int val1 = values.top();
+        values.pop();
+
+        char op = ops.top();
+        ops.pop();
+
+        values.push(applyOp(val1, val2, op));
+    }
+
+    
+    return values.top();
+}
 
 int main()
 {
-	double answer;
-	cout << "Enter a expression: ";
-	answer = read_and_evaluate(cin);
-	cout << "Evaluates to: " << answer << endl;
-
+    string answer;
+    cout << "Please enter an expression with proper parenthesis: ";
+    cin >> answer;
+    cout << evaluate(answer) << "\n";
+   
+    return 0;
 }
