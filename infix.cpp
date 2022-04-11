@@ -172,7 +172,6 @@ bool evaluate(string s)
 		{
 			cout << "Invalid expression due to excess use of parantheses, please create a valid expression" << endl;
 			validExpress = false;
-			return validExpress;
 		}
 	}
 	return validExpress;
