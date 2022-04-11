@@ -1,9 +1,12 @@
+
 #include <string>
 #include <stack>
 #include <iostream>
 #include <cmath>
 
 using namespace std;
+
+//This entire code is an expression validation
 
 bool valDigit(char c)
 {
@@ -32,6 +35,7 @@ int getPriority(char c)
 
 bool evaluate(string s)
 {
+	int val = 0;
 	int index = 0;
 	int parCount = 0;
 	int valCount = 0;
@@ -57,21 +61,28 @@ bool evaluate(string s)
 		}
 		if (valDigit(position))
 		{
-			completeVal = false;
+			if (completeVal == true)
+			{
+
+			}
+			else completeVal = false;
 		}
 		else if (valOperator(position))
 		{
-			if (completeVal == false)
+			if (position != '(' || position != ')')
 			{
-				valCount = valCount++;
-				completeVal = true;
+				if (completeVal == false)
+				{
+					valCount = valCount++;
+					completeVal = true;
+				}
 			}
 			if (position == '-')
 			{
 				//checks for use without a value preceding operator
 				if (valCount == 0)
 				{
-					if (s[index-1] != '*' || s[index-1] != '/' || s[index-1] != '^')
+					if (s[index - 1] != '*' || s[index - 1] != '/' || s[index - 1] != '^')
 					{
 						cout << "Invalid expression due to excess use of operators." << endl;
 						validExpress = false;
@@ -154,14 +165,15 @@ bool evaluate(string s)
 		}
 		index++;
 	}
-	if (validExpress == false)
-	{
-		return false;
-	}
 	//unequal parantheses check after reading string
 	if (parCount != 0)
 	{
-		cout << "Invalid expression due to excess use of parantheses, please create a valid expression" << endl;
-		return false;
+		if (validExpress == true)
+		{
+			cout << "Invalid expression due to excess use of parantheses, please create a valid expression" << endl;
+			validExpress = false;
+			return validExpress;
+		}
 	}
+	return validExpress;
 }

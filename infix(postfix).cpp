@@ -6,6 +6,7 @@
 using namespace std;
 
 //This entire code is an expression validation
+//a + b(c^d-e)^(f+*gh)-
 
 bool valObject(char c)
 {
@@ -29,14 +30,14 @@ int getPriority(char c)
 {
 	switch (c)
 	{
-		case '+':
-		case '-': return 1;
-		case '*':
-		case '/': return 2;
-		case '^': return 3;
-		case '(': 
-		case ')': return 4;
-		default: return -1;
+	case '+':
+	case '-': return 1;
+	case '*':
+	case '/': return 2;
+	case '^': return 3;
+	case '(':
+	case ')': return 4;
+	default: return -1;
 	}
 }
 
@@ -66,21 +67,28 @@ bool evaluate(string s)
 		}
 		if (valObject(position))
 		{
-			completeVal = false;
+			if (completeVal == true)
+			{
+
+			}
+			else completeVal = false;
 		}
 		else if (valOperator(position))
 		{
-			if (completeVal == false)
+			if (position != '('|| position != ')')
 			{
-				valCount = valCount++;
-				completeVal = true;
+				if (completeVal == false)
+				{
+					valCount = valCount++;
+					completeVal = true;
+				}
 			}
 			if (position == '-')
 			{
 				//checks for use without a value preceding operator
 				if (valCount == 0)
 				{
-					if (s[index-1] != '*' || s[index-1] != '/' || s[index-1] != '^')
+					if (s[index - 1] != '*' || s[index - 1] != '/' || s[index - 1] != '^')
 					{
 						cout << "Invalid expression due to excess use of operators." << endl;
 						validExpress = false;
@@ -166,10 +174,12 @@ bool evaluate(string s)
 	//unequal parantheses check after reading string
 	if (parCount != 0)
 	{
-		cout << parCount << endl;
-		cout << "Invalid expression due to excess use of parantheses, please create a valid expression" << endl;
-		validExpress = false;
-		return validExpress;
+		if (validExpress == true)
+		{
+			cout << "Invalid expression due to excess use of parantheses, please create a valid expression" << endl;
+			validExpress = false;
+			return validExpress;
+		}
 	}
 	return validExpress;
 }
