@@ -71,15 +71,15 @@ bool evaluate(string s)
 			}
 			if (position == '-')
 			{
-				//checks for double negative
-				if (negCount != 0)
+				//checks for use without a value preceding operator
+				if (valCount == 0)
 				{
 					cout << "Invalid expression due to excess use of operators before translation to prefix." << endl;
 					validExpress = false;
 				}
-				if (valCount == 0)
+				else
 				{
-					negCount = negCount++;
+					valCount = valCount--;
 					val = 0;
 				}
 			}
