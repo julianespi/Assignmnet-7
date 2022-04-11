@@ -13,7 +13,7 @@ bool valDigit(char c)
 
 bool valOperator(char c)
 {
-	return (c == '+' || c == '-' || c == '*' || c == '/' || c == '(' || c == ')');
+	return (c == '+' || c == '-' || c == '*' || c == '/' || c == '(' || c == ')' || c == '^');
 }
 
 int getPriority(char c)
@@ -24,8 +24,9 @@ int getPriority(char c)
 		case '-': return 1;
 		case '*':
 		case '/': return 2;
+		case '^': return 3;
 		case '(': 
-		case ')': return 3;
+		case ')': return 4;
 		default: return -1;
 	}
 }
