@@ -130,17 +130,59 @@ int evaluate(string tokens) {
     return values.top();
 }
 
-int main()
+bool IsThereContents(string input)
 {
-    string answer;
+
+    for (int i = 0; i < input.size(); i++)
+    {
+        if (isdigit(input[i]))
+            return true;
+    }
+
+    return false;
+}
+
+bool valid(string input)
+{
+    stack<char> openParenthesis;
+    stack<char> closedParenthesis;
+
+    for (int i = 0; i < input.size(); i++)
+    {
+        if (input[i] == '(')
+            openParenthesis.push(input[i]);
+        else if (input[i] == ')')
+            closedParenthesis.push(input[i]);
+    }
+    if (openParenthesis.size() == closedParenthesis.size() && IsThereContents(input)== true)
+        return true;
+    else
+        return false;
+
+}
+
+void simpleCalculator()
+{
     char parentheses = '(';
     char parentheses2 = ')';
-    cout << "Please enter an expression with balanced parentheses: ";
-    cin >> answer;
+    string answer = inputString("Please enter an expression with proper parenthesis: ",true);
 
     bool result = find(answer.begin(), answer.end(), parentheses2) != answer.end();
     bool result2 = find(answer.begin(), answer.end(), parentheses) != answer.end();
-    if (result and result2)
+    for (int  i = 0; i < answer.size(); i++)
+    {
+        if (isalpha(answer[i]))
+        {
+            cout << "ERROR: Invalid arithmetic expression." << endl;
+            return;
+        }
+    }
+    if (!valid(answer))
+    {
+        cout << "ERROR: Invalid arithmetic expression." << endl;
+        return;
+    }
+    else if (result and result2)
     {
         cout << evaluate(answer) << "\n";
     }
@@ -148,6 +190,4 @@ int main()
     {
         cout << "Not balanced parentheses.";
     }
-   
-    return 0;
 }
