@@ -125,6 +125,20 @@ bool evaluate(string s)
 					val = 0;
 				}
 			}
+			if (position == '^')
+			{
+				//checks for use without a value preceding operator
+				if (valCount == 0)
+				{
+					cout << "Invalid expression due to excess use of operators before translation to prefix." << endl;
+					validExpress = false;
+				}
+				else
+				{
+					valCount = valCount--;
+					val = 0;
+				}
+			}
 			if (position == '(')
 			{
 				parCount = parCount++;
