@@ -421,6 +421,7 @@ void nQueensSoultion()
                         }
 
                     }
+
                     if (clearRow == true)
                     {
                         temp.setRow(row);
