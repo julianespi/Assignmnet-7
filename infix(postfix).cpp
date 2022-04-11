@@ -163,15 +163,13 @@ bool evaluate(string s)
 		}
 		index++;
 	}
-	if (validExpress == false)
-	{
-		return false;
-	}
 	//unequal parantheses check after reading string
 	if (parCount != 0)
 	{
 		cout << parCount << endl;
 		cout << "Invalid expression due to excess use of parantheses, please create a valid expression" << endl;
-		return false;
+		validExpress = false;
+		return validExpress;
 	}
+	return validExpress;
 }
