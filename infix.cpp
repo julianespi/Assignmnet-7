@@ -30,17 +30,14 @@ int getPriority(char c)
 	}
 }
 
-int evaluate(string s)
+bool evaluate(string s)
 {
-	stack<int> values;
-	stack<char> ops;
-
 	int val = 0;
 	int index = 0;
 	int parCount = 0;
 	int valCount = 0;
 	int negCount = 0;
-	bool compeleteVal = false;
+	bool completeVal = false;
 	bool validExpress = true;
 	while (index < s.length())
 	{
@@ -53,11 +50,14 @@ int evaluate(string s)
 		{
 			cout << "Invalid expression due to use of illegal elements, please create a valid expression without spaces or characters." << endl;
 			validExpress = false;
-			break;
+		}
+		if (position == ' ')
+		{
+			index++;
 		}
 		if (valDigit(position))
 		{
-			compeleteVal = false;
+			completeVal = false;
 			val = (val * 10) + (int)(position - '0');
 		}
 		else if (valOperator(position))
@@ -65,8 +65,7 @@ int evaluate(string s)
 			if (completeVal == false)
 			{
 				valCount = valCount++;
-				values.push(val);
-				compeleteVal = true;
+				completeVal = true;
 				negCount = 0;
 			}
 			if (position == '-')
@@ -76,12 +75,10 @@ int evaluate(string s)
 				{
 					cout << "Invalid expression due to excess use of operators before translation to prefix." << endl;
 					validExpress = false;
-					break;
 				}
 				if (valCount == 0)
 				{
 					negCount = negCount++;
-					ops.push(position);
 					val = 0;
 				}
 			}
@@ -92,12 +89,10 @@ int evaluate(string s)
 				{
 					cout << "Invalid expression due to excess use of operators before translation to prefix." << endl;
 					validExpress = false;
-					break;
 				}
 				else
 				{
 					valCount = valCount--;
-					ops.push(position);
 					val = 0;
 				}
 			}
@@ -108,12 +103,10 @@ int evaluate(string s)
 				{
 					cout << "Invalid expression due to excess use of operators before translation to prefix." << endl;
 					validExpress = false;
-					break;
 				}
 				else
 				{
 					valCount = valCount--;
-					ops.push(position);
 					val = 0;
 				}
 			}
@@ -124,19 +117,16 @@ int evaluate(string s)
 				{
 					cout << "Invalid expression due to excess use of operators before translation to prefix." << endl;
 					validExpress = false;
-					break;
 				}
 				else
 				{
 					valCount = valCount--;
-					ops.push(position);
 					val = 0;
 				}
 			}
 			if (position == '(')
 			{
 				parCount = parCount++;
-				ops.push(position);
 				val = 0;
 			}
 			else if (position == ')')
@@ -146,12 +136,10 @@ int evaluate(string s)
 				{
 					cout << "Invalid expression due to ')', please ensure the use of parantheses is legal." << endl;
 					validExpress = false;
-					break;
 				}
 				if (parCount != 0)
 				{
 					parCount = parCount--;
-					ops.push(position);
 					val = 0;
 				}
 			}
@@ -160,12 +148,12 @@ int evaluate(string s)
 	}
 	if (validExpress == false)
 	{
-		break;
+		return false;
 	}
 	//unequal parantheses check after reading string
 	if (parCount != 0)
 	{
 		cout << "Invalid expression due to excess use of parantheses, please create a valid expression" << endl;
-		break;
+		return false;
 	}
 }
