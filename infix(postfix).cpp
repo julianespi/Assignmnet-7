@@ -43,7 +43,6 @@ int getPriority(char c)
 
 bool evaluate(string s)
 {
-	int val = 0;
 	int index = 0;
 	int parCount = 0;
 	int valCount = 0;
@@ -88,7 +87,6 @@ bool evaluate(string s)
 				else
 				{
 					valCount = valCount--;
-					val = 0;
 				}
 			}
 			if (position == '+')
@@ -102,7 +100,6 @@ bool evaluate(string s)
 				else
 				{
 					valCount = valCount--;
-					val = 0;
 				}
 			}
 			if (position == '*')
@@ -116,7 +113,6 @@ bool evaluate(string s)
 				else
 				{
 					valCount = valCount--;
-					val = 0;
 				}
 			}
 			if (position == '/')
@@ -130,7 +126,6 @@ bool evaluate(string s)
 				else
 				{
 					valCount = valCount--;
-					val = 0;
 				}
 			}
 			if (position == '^')
@@ -144,13 +139,11 @@ bool evaluate(string s)
 				else
 				{
 					valCount = valCount--;
-					val = 0;
 				}
 			}
 			if (position == '(')
 			{
 				parCount = parCount++;
-				val = 0;
 			}
 			else if (position == ')')
 			{
@@ -163,7 +156,6 @@ bool evaluate(string s)
 				if (parCount != 0)
 				{
 					parCount = parCount--;
-					val = 0;
 				}
 			}
 		}
