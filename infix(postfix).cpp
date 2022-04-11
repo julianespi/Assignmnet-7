@@ -80,7 +80,7 @@ bool evaluate(string s)
 				//checks for use without a value preceding operator
 				if (valCount == 0)
 				{
-					if (s[position-1] != * || s[postion-1] != / || s[position-1] != ^)
+					if (s[position-1] != '*' || s[postion-1] != '/' || s[position-1] != '^')
 					{
 						cout << "Invalid expression due to excess use of operators." << endl;
 						validExpress = false;
