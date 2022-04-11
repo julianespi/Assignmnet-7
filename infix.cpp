@@ -47,9 +47,9 @@ bool evaluate(string s)
 			break;
 		}
 		char position = s[index];
-		if (valDigit(position) == false && valOperator(position) == false)
+		if (valDigit(position) == false && valOperator(position) == false && position != ' ')
 		{
-			cout << "Invalid expression due to use of illegal elements, please create a valid expression without spaces or characters." << endl;
+			cout << "Invalid expression due to use of illegal elements, please create a valid expression without characters." << endl;
 			validExpress = false;
 		}
 		if (position == ' ')
