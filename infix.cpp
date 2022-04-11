@@ -166,4 +166,11 @@ bool evaluate(string s)
 	{
 		return false;
 	}
+	//unequal parantheses check after reading string
+	if (parCount != 0)
+	{
+		cout << parCount << endl;
+		cout << "Invalid expression due to excess use of parantheses, please create a valid expression" << endl;
+		return false;
+	}
 }
