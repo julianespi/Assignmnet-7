@@ -55,6 +55,7 @@ bool evaluate(string s)
 		if (position == ' ')
 		{
 			index++;
+			position = s[index];
 		}
 		if (valDigit(position))
 		{
