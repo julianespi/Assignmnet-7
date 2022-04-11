@@ -47,7 +47,6 @@ bool evaluate(string s)
 	int index = 0;
 	int parCount = 0;
 	int valCount = 0;
-	int negCount = 0;
 	bool completeVal = false;
 	bool validExpress = true;
 	while (index < s.length())
@@ -70,10 +69,6 @@ bool evaluate(string s)
 		if (valObject(position))
 		{
 			completeVal = false;
-			if (valDigit(position))
-			{
-				val = (val * 10) + (int)(position - '0');
-			}
 		}
 		else if (valOperator(position))
 		{
@@ -81,7 +76,6 @@ bool evaluate(string s)
 			{
 				valCount = valCount++;
 				completeVal = true;
-				negCount = 0;
 			}
 			if (position == '-')
 			{
