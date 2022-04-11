@@ -60,7 +60,6 @@ bool evaluate(string s)
 		if (valDigit(position))
 		{
 			completeVal = false;
-			val = (val * 10) + (int)(position - '0');
 		}
 		else if (valOperator(position))
 		{
@@ -68,7 +67,6 @@ bool evaluate(string s)
 			{
 				valCount = valCount++;
 				completeVal = true;
-				negCount = 0;
 			}
 			if (position == '-')
 			{
