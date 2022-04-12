@@ -63,9 +63,8 @@ bool evaluate(string s)
 		{
 			if (completeVal == true)
 			{
-
+				completeVal = true;
 			}
-			else completeVal = false;
 		}
 		else if (valOperator(position))
 		{
